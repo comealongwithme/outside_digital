@@ -1,0 +1,183 @@
+:root {
+  --tw-color-crimson: #ea0029;
+  --tw-crimson-gradien: linear-gradient(
+      255.35deg,
+      #dc3131 0.83%,
+      rgba(255, 79, 79, 0) 108.93%
+    ),
+    #ff5e56;
+}
+
+@font-face {
+  font-family: 'Lab Grotesque';
+  src: url('/font/LabGrotesque-Regular.eot');
+  src: local('Lab Grotesque Regular'), local('LabGrotesque-Regular'),
+    url('/font/LabGrotesque-Regular.eot?#iefix') format('embedded-opentype'),
+    url('/font/LabGrotesque-Regular.woff2') format('woff2'),
+    url('/font/LabGrotesque-Regular.woff') format('woff'),
+    url('/font/LabGrotesque-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lab Grotesque';
+  src: url('/font/LabGrotesque-Medium.eot');
+  src: local('Lab Grotesque Medium'), local('LabGrotesque-Medium'),
+    url('/font/LabGrotesque-Medium.eot?#iefix') format('embedded-opentype'),
+    url('/font/LabGrotesque-Medium.woff2') format('woff2'),
+    url('/font/LabGrotesque-Medium.woff') format('woff'),
+    url('/font/LabGrotesque-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#app {
+  height: 100vh;
+}
+
+#app {
+  @apply flex items-center justify-center;
+  background: var(--tw-crimson-gradien);
+  box-shadow: 0px -0.11px 16.9495px rgba(183, 187, 225, 0.33);
+}
+
+.popup {
+  @apply absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center;
+}
+
+.popup__head {
+  margin-top: 12px;
+}
+
+.popup__button {
+  @apply px-8 py-4 text-base font-medium leading-5 text-white border border-white rounded;
+}
+
+.popup__backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+  @apply absolute top-0 bottom-0 left-0 right-0 z-10 cursor-pointer;
+}
+
+.popup__content {
+  height: 100vh;
+  @apply relative z-20 p-8 bg-white;
+}
+
+.popup__heading {
+  @apply mb-6;
+}
+
+.popup__title {
+  @apply mb-4 font-medium leading-6 text-2/5xl;
+}
+
+.popup__subtitle {
+  color: #808080;
+  @apply text-sm;
+}
+
+.popup__action {
+  @apply flex items-center justify-center w-full py-4 text-base font-medium leading-6 text-white rounded-md;
+}
+
+.popup__close {
+  position: absolute;
+  top: 27px;
+  right: 27px;
+}
+
+@media (min-width: 768px) {
+  .popup__content {
+    height: auto;
+    max-width: 453px;
+    @apply rounded-4xl;
+  }
+}
+
+@media (min-width: 1199px) {
+  .popup__content {
+    max-width: 552px;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.bg-crimson-gradient {
+  background: var(--tw-crimson-gradien);
+}
+
+.crimson-shadow {
+  box-shadow: 0px 0px 24px rgba(234, 0, 41, 0.33);
+}
+
+.calc__checkbox {
+  cursor: pointer;
+}
+
+.calc__checkbox_input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.calc__checkbox_label {
+  font-size: 14px;
+  line-height: 24px;
+  padding: 6px 12px;
+  background-color: #eef0f2;
+  border-radius: 50px;
+}
+
+.calc__checkbox_input:checked ~ .calc__checkbox_label,
+.calc__checkbox:active .calc__checkbox_label {
+  background: var(--tw-crimson-gradien);
+  color: #fff;
+}
+
+.input-error {
+  @apply hidden;
+}
+
+.calc__input {
+  @apply text-sm
+  border border-[#DFE3E6]
+  placeholder-[#BEC5CC]
+  rounded-[3px]
+  py-2
+  px-[10px]
+  hover:border-black
+  caret-[#808080]
+  focus:outline-none
+  disabled:text-[#808080]
+  disabled:border-[#808080]
+  disabled:placeholder-[#808080]
+  invalid:border-crimson
+  invalid:placeholder-crimson
+  invalid:text-crimson
+  hover:invalid:border-crimson hover:invalid:placeholder-crimson
+  valid:border-green-500
+  valid:placeholder-green-500
+  valid:text-green-500
+  hover:valid:border-green-500 hover:valid:placeholder-green-500;
+}
+
+.calc__input:invalid:required + .input-error {
+  @apply inline mt-1 text-crimson text-2xs;
+}
