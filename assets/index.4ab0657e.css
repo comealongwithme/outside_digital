@@ -20,12 +20,12 @@
 }
 @font-face {
   font-family: 'Lab Grotesque';
-  src: url(/font/LabGrotesque-Medium.eot);
+  src: url(../font/LabGrotesque-Medium.eot);
   src: local('Lab Grotesque Medium'), local('LabGrotesque-Medium'),
-    url(/font/LabGrotesque-Medium.eot?#iefix) format('embedded-opentype'),
-    url(/font/LabGrotesque-Medium.woff2) format('woff2'),
-    url(/font/LabGrotesque-Medium.woff) format('woff'),
-    url(/font/LabGrotesque-Medium.ttf) format('truetype');
+    url(../font/LabGrotesque-Medium.eot?#iefix) format('embedded-opentype'),
+    url(../font/LabGrotesque-Medium.woff2) format('woff2'),
+    url(../font/LabGrotesque-Medium.woff) format('woff'),
+    url(../font/LabGrotesque-Medium.ttf) format('truetype');
   font-weight: 500;
   font-style: normal;
 } /*! tailwindcss v2.2.4 | MIT License | https://tailwindcss.com */ /*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
