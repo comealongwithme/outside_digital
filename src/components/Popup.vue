@@ -10,17 +10,20 @@
       disabled:border-[#BEC5CC]
     "
     type="button"
-    @click="togglePopup"
+    @click="popupOpen = !popupOpen"
   >
     Налоговый вычет
   </button>
   <teleport to="#app">
     <transition name="fade">
       <div v-if="popupOpen" class="popup">
-        <div class="popup__backdrop" @click="togglePopup"></div>
         <div class="popup__content">
           <div class="popup__head">
-            <button class="popup__close" type="button" @click="togglePopup">
+            <button
+              class="popup__close"
+              type="button"
+              @click="popupOpen = !popupOpen"
+            >
               <svg
                 class="fill-current text-crimson hover:text-[#F53A31]"
                 width="18"
@@ -42,11 +45,11 @@
               </p>
             </div>
           </div>
-          <div class="popup__body mb-10">
-            <div class="input-group flex flex-col mb-2">
+          <div class="mb-10 popup__body">
+            <div class="flex flex-col mb-2 input-group">
               <label
                 for="calc__salary"
-                class="text-sm font-medium mb-2 leading-6"
+                class="mb-2 text-sm font-medium leading-6"
                 >Ваша зарплата в месяц</label
               >
               <input
@@ -60,10 +63,10 @@
               />
               <small class="input-error">Поле обязательно для заполнения</small>
             </div>
-            <div class="input-group mb-6">
+            <div class="mb-6 input-group">
               <button
                 type="button"
-                @click="calcYearDeduction"
+                @click="calc"
                 class="
                   text-crimson
                   font-medium
@@ -75,13 +78,40 @@
                 Расчитать
               </button>
             </div>
-            <div class="input-group"></div>
+            <div class="mb-5 input-group" v-if="avaibleOptions.length > 0">
+              <p class="mb-4 text-sm font-medium leading-6">
+                Итого вы можете внести в качестве досрочных:
+              </p>
+              <ul>
+                <li
+                  v-for="(item, index) in avaibleOptions"
+                  :key="index"
+                  class="
+                    checkbox-group
+                    mb-4
+                    pb-4
+                    border-b border-[#DFE3E6]
+                    flex
+                  "
+                >
+                  <label class="text-sm leading-6">
+                    <input class="checkbox-input" type="checkbox" />
+                    <span class="leading-6 checkbox-label"
+                      >{{ formatNumber(item) }} рублей
+                      <small class="text-[#808080] text-sm leading-6 ml-1">
+                        в {{ declOfNum(++index) }} год
+                      </small></span
+                    >
+                  </label>
+                </li>
+              </ul>
+            </div>
             <div class="input-group md:flex">
-              <p class="text-sm font-medium mr-8 mb-6 md:mb-0">
+              <p class="mb-6 mr-8 text-sm font-medium md:mb-0">
                 Что уменьшаем?
               </p>
               <div class="checkbox-group">
-                <label class="calc__checkbox mr-4">
+                <label class="mr-4 calc__checkbox">
                   <input
                     class="calc__checkbox_input"
                     type="radio"
@@ -124,40 +154,56 @@
         </div>
       </div>
     </transition>
+    <transition name="fade">
+      <div
+        v-if="popupOpen"
+        @click="popupOpen = !popupOpen"
+        class="popup__backdrop"
+      ></div>
+    </transition>
   </teleport>
 </template>
 
 <script>
-import { ref } from '@vue/reactivity';
+import { ref } from 'vue';
 export default {
   setup() {
     const popupOpen = ref(false);
-    const salary = ref('');
+    const salary = ref(null);
+    const avaibleOptions = ref([]);
 
-    var maxDeduction = ref(260000);
-    var oneTimeDeduction = ref(0);
-    var amountOfTimes = ref([]);
+    const formatNumber = (num) => {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    };
 
-    const calcYearDeduction = () => {
-      if (salary.value) {
-        oneTimeDeduction.value = salary.value * 12 * 0.13;
-
-        if (maxDeduction.value > 0) {
-          maxDeduction.value - oneTimeDeduction.value;
-          amountOfTimes.value.push(oneTimeDeduction.value);
+    function declOfNum(number) {
+      let cases = [2, 6, 7, 8];
+      let ending = () => {
+        if (cases.some((item) => item == number)) {
+          return 'ой';
+        } else {
+          return 'ый';
         }
+      };
+      return `${number}-${ending()}`;
+    }
 
-        console.log(amountOfTimes);
-      } else {
-        return false;
+    function calc() {
+      let maxDeduction = 260000;
+      let maxDeductionAmount = salary.value * 12 * 0.13;
+      let newArray = [];
+
+      while (maxDeduction > maxDeductionAmount) {
+        maxDeduction = maxDeduction - maxDeductionAmount;
+        newArray.push(maxDeductionAmount);
       }
-    };
 
-    const togglePopup = () => {
-      popupOpen.value ? (popupOpen.value = false) : (popupOpen.value = true);
-    };
+      newArray.push(maxDeduction);
 
-    return { salary, popupOpen, togglePopup, calcYearDeduction };
+      avaibleOptions.value = newArray;
+    }
+
+    return { popupOpen, salary, avaibleOptions, formatNumber, declOfNum, calc };
   },
 };
 </script>

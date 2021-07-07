@@ -37,19 +37,25 @@
 @tailwind utilities;
 
 html,
-body,
-#app {
+body {
   height: 100vh;
 }
 
 #app {
+  height: 100%;
   @apply flex items-center justify-center;
   background: var(--tw-crimson-gradien);
   box-shadow: 0px -0.11px 16.9495px rgba(183, 187, 225, 0.33);
 }
 
 .popup {
-  @apply absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center;
+  @apply fixed top-0 left-0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+  z-index: 999;
 }
 
 .popup__head {
@@ -66,7 +72,6 @@ body,
 }
 
 .popup__content {
-  height: 100vh;
   @apply relative z-20 p-8 bg-white;
 }
 
@@ -94,6 +99,9 @@ body,
 }
 
 @media (min-width: 768px) {
+  .popup__content {
+    margin: 1.75rem auto;
+  }
   .popup__content {
     height: auto;
     max-width: 453px;
@@ -180,4 +188,53 @@ body,
 
 .calc__input:invalid:required + .input-error {
   @apply inline mt-1 text-crimson text-2xs;
+}
+
+.checkbox-group .checkbox-input {
+  width: 0;
+  position: absolute;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.checkbox-group label {
+  cursor: pointer;
+}
+
+.checkbox-group .checkbox-label {
+  display: flex;
+  position: relative;
+  padding-left: 32px;
+}
+
+.checkbox-group label:active .checkbox-label:before {
+  border: 1px solid #000;
+}
+
+.checkbox-group .checkbox-label:before,
+.checkbox-group .checkbox-label:after {
+  content: '';
+  display: flex;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  position: absolute;
+  left: 0;
+  align-items: center;
+}
+
+.checkbox-group .checkbox-label:after {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.5 6C0.5 2.96243 2.96243 0.5 6 0.5H14C17.0376 0.5 19.5 2.96243 19.5 6V14C19.5 17.0376 17.0376 19.5 14 19.5H6C2.96243 19.5 0.5 17.0376 0.5 14V6Z' fill='%23FF5E56' /%3E%3Cpath d='M0.5 6C0.5 2.96243 2.96243 0.5 6 0.5H14C17.0376 0.5 19.5 2.96243 19.5 6V14C19.5 17.0376 17.0376 19.5 14 19.5H6C2.96243 19.5 0.5 17.0376 0.5 14V6Z' fill='url(%23paint0_linear)' /%3E%3Cpath d='M0.5 6C0.5 2.96243 2.96243 0.5 6 0.5H14C17.0376 0.5 19.5 2.96243 19.5 6V14C19.5 17.0376 17.0376 19.5 14 19.5H6C2.96243 19.5 0.5 17.0376 0.5 14V6Z' stroke='%23FF5E56' /%3E%3Cpath d='M0.5 6C0.5 2.96243 2.96243 0.5 6 0.5H14C17.0376 0.5 19.5 2.96243 19.5 6V14C19.5 17.0376 17.0376 19.5 14 19.5H6C2.96243 19.5 0.5 17.0376 0.5 14V6Z' stroke='url(%23paint1_linear)' /%3E%3Cpath d='M7.45455 13.7015L4.11364 10.2537L3 11.403L7.45455 16L17 6.14925L15.8864 5L7.45455 13.7015Z' fill='white' /%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear' x1='20' y1='0.798563' x2='-7.38102' y2='7.95678' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23DC3131' /%3E%3Cstop offset='0.932292' stop-color='%23FF4F4F' stop-opacity='0' /%3E%3C/linearGradient%3E%3ClinearGradient id='paint1_linear' x1='20' y1='0.798563' x2='-7.38102' y2='7.95678' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23DC3131' /%3E%3Cstop offset='0.932292' stop-color='%23FF4F4F' stop-opacity='0' /%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+}
+
+.checkbox-group .checkbox-input:not(:checked) ~ .checkbox-label:after {
+  opacity: 0;
+}
+
+.checkbox-group .checkbox-label:before {
+  border: 1px solid #dfe3e6;
+}
+
+.checkbox-group .checkbox-input:checked ~ .checkbox-label:before {
+  opacity: 0;
 }
